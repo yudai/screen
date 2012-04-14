@@ -5399,11 +5399,12 @@ int on;
 }
 
 char *
-AddWindows(buf, len, flags, where)
+AddWindows(buf, len, flags, where, hstatus)
 char *buf;
 int len;
 int flags;
 int where;
+int hstatus;
 {
   register char *s, *ss;
   register struct win **pp, *p;
@@ -5428,7 +5429,11 @@ int where;
       if (display && D_fore && D_fore->w_group != p->w_group)
 	continue;
 
-      cmd = p->w_title;
+      if (hstatus && p->w_hstatus != 0) {
+        cmd = p->w_hstatus;
+      }else {
+        cmd = p->w_title;
+      }
       l = strlen(cmd);
       if (l > 20)
         l = 20;
@@ -5571,7 +5576,7 @@ int where;
 
   if (display && where == -1 && D_fore)
     where = D_fore->w_number;
-  ss = AddWindows(buf, sizeof(buf), 0, where);
+  ss = AddWindows(buf, sizeof(buf), 0, where, 0);
   s = buf + strlen(buf);
   if (display && ss - buf > D_width / 2)
     {
