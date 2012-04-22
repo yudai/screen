@@ -2776,7 +2776,6 @@ int rec;
 	  break;
 	case 'w':
 	case 'W':
-        case 'X':
 	  {
 	    struct win *oldfore = 0;
 	    char *ss;
@@ -2786,7 +2785,7 @@ int rec;
 		oldfore = D_fore;
 		D_fore = win;
 	      }
-	    ss = AddWindows(p, l - 1, (*s == 'W' ? 1 : 0) | (longflg ? 0 : 2) | (plusflg ? 4 : 0) | (minusflg ? 8 : 0), win ? win->w_number : -1, *s == 'X' ? 1 : 0);
+	    ss = AddWindows(p, l - 1, (*s == 'W' ? 1 : 0) | (longflg ? 0 : 2) | (plusflg ? 4 : 0) | (minusflg ? 8 : 0), win ? win->w_number : -1, 1);
 	    if (display)
 	      D_fore = oldfore;
 	  }
