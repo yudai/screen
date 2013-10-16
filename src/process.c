@@ -1840,7 +1840,14 @@ int key;
       Activate(-1);
       break;
     case RC_WINDOWS:
-      ShowWindows(-1);
+      if (queryflag >= 0)
+        {
+          QueryWindows();
+        }
+      else
+        {
+          ShowWindows(-1);
+        }
       break;
     case RC_VERSION:
       OutputMsg(0, "screen %s", version);
@@ -5591,6 +5598,15 @@ int where;
   else
     ss = buf;
   Msg(0, "%s", ss);
+}
+
+void
+QueryWindows()
+{
+  char buf[1024];
+
+  AddWindows(buf, sizeof(buf), 0, D_fore->w_number, 0);
+  QueryMsg(0, "%s", buf);
 }
 
 static void
