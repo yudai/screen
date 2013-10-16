@@ -1146,7 +1146,7 @@ char *data;
  *
  * If the command is quieted, and it's not a remote query, then just don't print the message.
  */
-#define OutputMsg	(!act->quiet ? Msg : queryflag >= 0 ? QueryMsg : Dummy)
+#define OutputMsg	(act->quiet ? Dummy : queryflag >= 0 ? QueryMsg : Msg)
 
 /*ARGSUSED*/
 void
