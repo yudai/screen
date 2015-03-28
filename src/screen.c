@@ -135,6 +135,7 @@ extern char *zmodem_sendcmd;
 extern char *zmodem_recvcmd;
 #endif
 extern struct layout *layout_last;
+extern struct layout *layout_previous_selected;
 
 
 char *ShellProg;

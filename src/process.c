@@ -178,6 +178,7 @@ extern struct win *fore, *console_window, *windows;
 extern struct acluser *users;
 extern struct layout *layouts, *layout_attach, layout_last_marker;
 extern struct layout *laytab[];
+extern struct layout *layout_previous_selected;
 
 extern char screenterm[], HostName[], version[];
 extern struct NewWindow nwin_undef, nwin_default;
@@ -4404,6 +4405,15 @@ int key;
 	      break;
 	    }
 	  SelectLayoutFin(args[1], strlen(args[1]), (char *)0);
+	}
+      else if (!strcmp(args[0], "other"))
+	{
+      if (!layout_previous_selected)
+        layout_previous_selected = D_layout->lay_next ? D_layout->lay_next : layouts;
+	  if (!display)
+        layout_attach = layout_previous_selected;
+      LoadLayout(layout_previous_selected, &D_canvas);
+      Activate(-1);
 	}
       else if (!strcmp(args[0], "next"))
 	{

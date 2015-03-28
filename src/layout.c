@@ -37,6 +37,7 @@ extern int captionalways;
 struct layout *layouts;
 struct layout *laytab[MAXLAY];
 struct layout *layout_last, layout_last_marker;
+struct layout *layout_previous_selected;
 struct layout *layout_attach = &layout_last_marker;
 
 void
@@ -177,6 +178,7 @@ struct canvas *cv;
   RethinkDisplayViewports();
   PutWindowCv(&D_canvas);
   ResizeLayersToCanvases();
+  layout_previous_selected = D_layout;
   D_layout = lay;
 }
 
