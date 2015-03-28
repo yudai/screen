@@ -59,5 +59,7 @@ extern int   LayoutDumpCanvas __P((struct canvas *, char *));
 extern void RenameLayout __P((struct layout *, const char *));
 extern int RenumberLayout __P((struct layout *, int));
 
+extern char *AddLayoutsInfo __P((char *, int, int, int));
+
 #endif /* SCREEN_LAYOUT_H */
 

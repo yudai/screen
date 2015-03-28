@@ -211,19 +211,37 @@ int startat;
 }
 
 
-static char *
-AddLayoutsInfo(buf, len, where)
+char *
+AddLayoutsInfo(buf, len, where, part_flag)
 char *buf;
 int len;
 int where;
+int part_flag;
 {
   char *s, *ss, *t;
   struct layout *p, **pp;
   int l;
-
+  int current_done = 0;
   s = ss = buf;
   for (pp = laytab; pp < laytab + MAXLAY; pp++)
     {
+      if (*pp == D_layout)
+        {
+          current_done = 1;
+          if ((part_flag & 8) != 0) {
+            *s++ = ' ';
+            *s++ = ' ';
+          }
+      }
+      if (! (
+             (part_flag == 0) ||
+             ((part_flag & 4) != 0 && current_done == 1 && *pp != D_layout) ||
+             ((part_flag & 8) != 0 && current_done == 0 && *pp != D_layout)
+             )
+          )
+        {
+          continue;
+        }
       if (pp - laytab == where && ss == buf)
 	ss = s;
       if ((p = *pp) == 0)
@@ -234,7 +252,7 @@ int where;
         l = 20;
       if (s - buf + l > len - 24)
         break;
-      if (s > buf)
+      if (s > buf || (part_flag & 4) != 0)
 	{
 	  *s++ = ' ';
 	  *s++ = ' ';
@@ -244,7 +262,9 @@ int where;
 	ss = s;
       s += strlen(s);
       if (display && p == D_layout)
-	*s++ = '*';
+        {
+          *s++ = '*';
+        }
       *s++ = ' ';
       strncpy(s, t, l);
       s += l;
@@ -269,7 +289,7 @@ int where;
     }
   if (where == -1 && D_layout)
     where = D_layout->lay_number;
-  ss = AddLayoutsInfo(buf, sizeof(buf), where);
+  ss = AddLayoutsInfo(buf, sizeof(buf), where, 0);
   s = buf + strlen(buf);
   if (ss - buf > D_width / 2)
     {

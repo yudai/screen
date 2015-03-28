@@ -87,6 +87,7 @@
 #endif
 
 #include "screen.h"
+#include "layout.h"
 #ifdef HAVE_BRAILLE
 # include "braille.h"
 #endif
@@ -2744,6 +2745,34 @@ int rec;
 		qmflag = 1;
 	      p += strlen(p) - 1;
 	    }
+	  break;
+	case 'g':
+          if (D_layout)
+            {
+              sprintf(p, "%d", D_layout->lay_number);
+              qmflag = 1;
+              p += strlen(p) - 1;
+            }
+	  break;
+	case 'O':
+	  *p = 0;
+	  if (D_layout && (int)strlen(D_layout->lay_title) < l)
+	    {
+	      strcpy(p, D_layout->lay_title);
+	      if (*p)
+		qmflag = 1;
+	    }
+	  p += strlen(p) - 1;
+	  break;
+	case 'o':
+          {
+            char *ss;
+            int where;
+            ss = AddLayoutsInfo(p, l - 1, 0, (plusflg ? 4 : 0) | (minusflg ? 8 : 0));
+          }
+	  if (*p)
+	    qmflag = 1;
+	  p += strlen(p) - 1;
 	  break;
 	case 'w':
 	case 'W':
