@@ -4408,12 +4408,19 @@ int key;
 	}
       else if (!strcmp(args[0], "other"))
 	{
-      if (!layout_previous_selected)
-        layout_previous_selected = D_layout->lay_next ? D_layout->lay_next : layouts;
-	  if (!display)
-        layout_attach = layout_previous_selected;
-      LoadLayout(layout_previous_selected, &D_canvas);
-      Activate(-1);
+          struct layout *lay;
+          lay = layout_previous_selected ? layout_previous_selected : ((D_layout && D_layout->lay_next) ? D_layout->lay_next : layouts);
+	  if (!lay)
+	    {
+	      OutputMsg(0, "no layout defined");
+	      break;
+            }
+          if (!display) {
+            layout_attach = lay;
+            break;
+          }
+          LoadLayout(lay, &D_canvas);
+          Activate(-1);
 	}
       else if (!strcmp(args[0], "next"))
 	{
